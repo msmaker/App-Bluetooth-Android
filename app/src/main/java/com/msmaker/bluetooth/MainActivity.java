@@ -17,7 +17,11 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.divyanshu.colorseekbar.ColorSeekBar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,8 +30,11 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnConect, btnLed1, btnLed2, btnLed3;
-
+    Button btnConect, btnLed1, btnEnviar, btnEnviar2, btnEnviar3;
+    EditText edtTextDados, edtTextDados2;
+    TextView textColor, textColor2, textColor3;
+    ColorSeekBar colorSeekBar;
+    View view;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final int SOLICITA_CONEXAO = 2;
     private static final int MESSAGE_READ = 3;
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     boolean conexao = false;
+    int setCor;
     private static String MAC = null;
     UUID MEU_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
@@ -54,8 +62,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnConect = findViewById(R.id.btnConect);
         btnLed1 = findViewById(R.id.btnLed1);
-        btnLed2 = findViewById(R.id.btnLed2);
-        btnLed3 = findViewById(R.id.btnLed3);
+        btnEnviar = findViewById(R.id.btnEnviar);
+        btnEnviar2 = findViewById(R.id.btnEnviar2);
+        btnEnviar3 = findViewById(R.id.btnEnviar3);
+        edtTextDados = findViewById(R.id.edtTextDados);
+        edtTextDados2 = findViewById(R.id.edtTextDados2);
+        colorSeekBar = findViewById(R.id.colorSeekBar);
+        textColor = findViewById(R.id.txtColor);
+        textColor2 = findViewById(R.id.txtColor2);
+        textColor3 = findViewById(R.id.txtColor3);
+        view = findViewById(R.id.view);
 
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -97,24 +113,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnLed2.setOnClickListener(new View.OnClickListener() {
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (conexao) {
-                    connectedThread.write("led2");
-                } else {
-                    Toast.makeText(getApplicationContext(), "Bluetoothnão está conectado", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        btnLed3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (conexao) {
-                    connectedThread.write("led3");
+                    int valor = Integer.parseInt(edtTextDados.getText().toString(), 16);
+                    String cor = String.valueOf(valor);
+                    textColor2.setText(String.valueOf(cor));
+                    connectedThread.write(cor);
                 } else {
                     Toast.makeText(getApplicationContext(), "Bluetooth não está conectado", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnEnviar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (conexao) {
+                    connectedThread.write(String.valueOf(setCor));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bluetooth não está conectado", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnEnviar3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (conexao) {
+                    connectedThread.write(String.valueOf(setCor));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bluetooth não está conectado", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+        colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+            @Override
+            public void onColorChangeListener(int i) {
+                view.setBackgroundColor(i);
+                setCor = i + 16777216;
+                textColor.setText(String.valueOf(setCor));
+                textColor3.setText(String.valueOf(i));
+
+                if (conexao) {
+                    //connectedThread.write( String.valueOf(setCor));
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bluetooth não está conectado", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -144,19 +195,6 @@ public class MainActivity extends AppCompatActivity {
                                 btnLed1.setText("LED 1 DESLIGADO");
                             }
 
-                            if (dadosFinais.contains("l2on")) {
-                                btnLed2.setText("LED 2 LIGADO");
-                            } else if (dadosFinais.contains("l2of")) {
-                                btnLed2.setText("LED 2 DESLIGADO");
-                            }
-
-                            if (dadosFinais.contains("l3on")) {
-                                btnLed3.setText("LED 3 LIGADO");
-                            } else if (dadosFinais.contains("l3of")) {
-                                btnLed3.setText("LED 3 DESLIGADO");
-                            }
-
-
                         }
 
                         dadosBluetooth.delete(0, dadosBluetooth.length());
@@ -169,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -19,17 +19,80 @@
         android:layout_height="wrap_content"
         android:text="Led1" />
 
-    <Button
-        android:id="@+id/btnLed2"
+
+    <EditText
+        android:id="@+id/edtTextDados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Led2" />
+        android:ems="10"
+        android:hint="Hexadecimal"
+        android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/btnLed3"
+        android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Led3" />
+        android:text="Enviar" />
+
+    <EditText
+        android:id="@+id/edtTextDados2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Decimal"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/btnEnviar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enviar" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@android:color/black" />
+
+    <com.divyanshu.colorseekbar.ColorSeekBar
+        android:id="@+id/colorSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white" />
+
+    <TextView
+        android:id="@+id/txtColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtColor2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtColor3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="TextView"
+        android:textSize="20sp"/>
+
+
+
+    <Button
+        android:id="@+id/btnEnviar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enviar" />
 
 
 </LinearLayout>
